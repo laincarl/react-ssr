@@ -13,6 +13,7 @@ const Goods = ({ match, list, route, dispatch }) => {
     console.log(window._serverRouter, match.path)
     if (window._serverRouter !== match.path) {
       console.log('load data ajax')
+      window._serverRouter = undefined
       dispatch(getList())
     }
   }, [])
