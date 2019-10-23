@@ -1,12 +1,15 @@
-import App from './container/index'
-import List from './container/List'
-
+import Index from './pages'
+import Goods from './pages/goods'
+import Detail from './pages/goods/detail'
 export default [{
   path: '/',
   exact: true,
-  component: App
+  component: Index,
 }, {
-  path: '/list',
-  exact: true,
-  component: List
+  path: '/goods',
+  component: Goods,
+  routes: [{
+    path: '/goods/detail/:id',
+    component: Detail,
+  }]
 }]
