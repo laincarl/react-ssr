@@ -5,11 +5,14 @@ import { renderRoutes } from 'react-router-config';
 import withStyles from 'isomorphic-style-loader/withStyles'
 import { getList } from '../../store';
 import styles from './index.scss';
-const Goods = ({ list, route, dispatch, staticContext }) => {
-  console.log(staticContext)
+
+const Goods = ({ match, list, route, dispatch }) => {
+
   const [value, setValue] = useState(1);
   useEffect(() => {
-    if (!list.length) {
+    console.log(window._serverRouter, match.path)
+    if (window._serverRouter !== match.path) {
+      console.log('load data ajax')
       dispatch(getList())
     }
   }, [])
@@ -24,7 +27,7 @@ const Goods = ({ list, route, dispatch, staticContext }) => {
     {renderRoutes(route.routes, { someProp: "these extra props are optional" })}
   </div>
 }
-Goods.load = function (store) {
+Goods.getInitialProps = function (store) {
   return store.dispatch(getList())
 }
 const Styled = withStyles(styles)(Goods)

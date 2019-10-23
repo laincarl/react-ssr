@@ -11,19 +11,20 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('*', (req, res) => {
-  const store = getServerStore()
+  const store = getServerStore();
+  console.log(req.path)
   const matchRoute = matchRoutes(routes, req.path);
   let requestQueue = [];
   matchRoute.forEach(match => {
     // console.log(match.route)
-    if (match.route.component.load) {
-      requestQueue.push(match.route.component.load(store))
+    if (match.route.component.getInitialProps) {
+      requestQueue.push(match.route.component.getInitialProps(store))
     }
   })
   Promise.all(requestQueue).then(() => {
     const css = new Set() // CSS for all rendered React components
     const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()))
-    const context = { isServer: true, css: [] }
+    const context = { isSSR: true, css: [] }
     const content = renderToString(
       <StyleContext.Provider value={{ insertCss }}>
         <Provider store={store}>
@@ -42,12 +43,13 @@ app.get('*', (req, res) => {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
         <style>${[...css].join('')}</style>
-      </head>
-      <body>
-        <div id="root">${content}</div>
         ${requestQueue.length > 0 ? `<script>
           window._context=${JSON.stringify(store.getState())}
+          window._serverRouter="${req.path}"
         </script>`: ''}     
+      </head>
+      <body>
+        <div id="root">${content}</div>        
         <script src="main.js"></script>
       </body>
       </html>

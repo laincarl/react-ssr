@@ -14,6 +14,6 @@ export const getClientStore = () => {
   return store;
 };
 export const getServerStore = () => {
-  const store = createStore(reducer, applyMiddleware(thunk));
+  const store = createStore(reducer,  applyMiddleware(thunk));
   return store;
 };

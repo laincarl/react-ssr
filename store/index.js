@@ -1,6 +1,6 @@
 import { dispatch } from 'redux';
 
-const SET_LIST = 'SET_LIST'
+const SET_LIST = 'SET_LIST';
 
 function setList(list) {
   return {
@@ -8,7 +8,6 @@ function setList(list) {
     list
   }
 }
-
 export function getList() {
   return (dispatch, getState) => {
     return new Promise((resolve) => {
@@ -36,7 +35,7 @@ export default (state = defaultState, action) => {
         ...state,
         list: action.list
       }
-    }
+    }    
     default: return state
   }
 } 
