@@ -5,7 +5,7 @@ let baseConfig = require('./webpack.base.config')
 module.exports = merge(baseConfig, {
   target: "node",
   mode: "development",
-  entry: "./server/index.js",
+  entry: ['@babel/polyfill', "./server/index.js"],
   output: {
     path: path.resolve(__dirname, '../build'),
     filename: 'bundle.js'

@@ -16,7 +16,7 @@ app.get('*', (req, res) => {
   const matchRoute = matchRoutes(routes, req.path);
   let requestQueue = [];
   matchRoute.forEach(match => {
-    // console.log(match.route)
+    console.log(match.route.component)
     if (match.route.component.getInitialProps) {
       requestQueue.push(match.route.component.getInitialProps(store))
     }
@@ -34,6 +34,7 @@ app.get('*', (req, res) => {
         </Provider>
       </StyleContext.Provider>
     )
+    console.log(requestQueue.length)
     res.send(`
       <!DOCTYPE html>
       <html lang="en">
